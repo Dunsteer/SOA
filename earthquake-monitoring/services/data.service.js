@@ -5,12 +5,14 @@
  */
 
 module.exports = {
-	name: "greeter",
+	name:"data",
 
 	/**
 	 * Settings
 	 */
-	settings: {},
+	settings: {
+
+	},
 
 	/**
 	 * Dependencies
@@ -21,43 +23,28 @@ module.exports = {
 	 * Actions
 	 */
 	actions: {
-		/**
-		 * Say a 'Hello' action.
-		 *
-		 * @returns
-		 */
-		hello: {
-			rest: {
-				method: "GET",
-				path: "/hello",
-			},
-			async handler() {
-				this.logger.info("test");
-				return "Hello Moleculer";
-			},
-		},
-
-		/**
-		 * Welcome, a username
-		 *
-		 * @param {String} name - User name
-		 */
-		welcome: {
-			rest: "/welcome",
-			params: {
-				name: "string",
+		getDeviceSettings:{
+			rest:{
+				method:"GET",
+				path:"/",
 			},
 			/** @param {Context} ctx  */
-			async handler(ctx) {
-				return `Welcome, ${ctx.params.name}`;
-			},
-		},
+			async handler(ctx){
+				return "test";
+			}
+		}
 	},
 
 	/**
 	 * Events
 	 */
-	events: {},
+	events: {
+		"new-data":{
+			handler(payload){
+				this.logger.info(payload);
+			}
+		}
+	},
 
 	/**
 	 * Methods
@@ -67,7 +54,9 @@ module.exports = {
 	/**
 	 * Service created lifecycle event handler
 	 */
-	created() {},
+	created() {
+
+	},
 
 	/**
 	 * Service started lifecycle event handler
@@ -78,4 +67,4 @@ module.exports = {
 	 * Service stopped lifecycle event handler
 	 */
 	async stopped() {},
-};
+}

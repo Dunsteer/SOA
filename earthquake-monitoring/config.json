@@ -1,0 +1,17 @@
+{
+  "devices": [
+    {
+      "type": "sensor",
+      "interval": 10000
+    },
+    {
+      "type": "actuator",
+      "commands": [
+        {
+          "comm": "move",
+          "params": "deg"
+        }
+      ]
+    }
+  ]
+}

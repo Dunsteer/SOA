@@ -25,11 +25,12 @@
     "moleculer-repl": "^0.6.2"
   },
   "dependencies": {
-    "moleculer-web": "^0.9.0",
+    "csv-parser": "^2.3.3",
+    "moleculer": "^0.14.0",
     "moleculer-db": "^0.8.4",
     "moleculer-db-adapter-mongo": "^0.4.7",
-    "mqtt": "^3.0.0",
-    "moleculer": "^0.14.0"
+    "moleculer-web": "^0.9.0",
+    "mqtt": "^3.0.0"
   },
   "engines": {
     "node": ">= 10.x.x"
