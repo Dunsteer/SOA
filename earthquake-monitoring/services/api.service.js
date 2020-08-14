@@ -51,14 +51,14 @@ module.exports = {
 
 				},
 
-				/** 
+				/**
 				 * Before call hook. You can check the request.
-				 * @param {Context} ctx 
-				 * @param {Object} route 
-				 * @param {IncomingRequest} req 
-				 * @param {ServerResponse} res 
+				 * @param {Context} ctx
+				 * @param {Object} route
+				 * @param {IncomingRequest} req
+				 * @param {ServerResponse} res
 				 * @param {Object} data
-				 * 
+				 *
 				onBeforeCall(ctx, route, req, res) {
 					// Set request headers to context meta
 					ctx.meta.userAgent = req.headers["user-agent"];
@@ -66,10 +66,10 @@ module.exports = {
 
 				/**
 				 * After call hook. You can modify the data.
-				 * @param {Context} ctx 
-				 * @param {Object} route 
-				 * @param {IncomingRequest} req 
-				 * @param {ServerResponse} res 
+				 * @param {Context} ctx
+				 * @param {Object} route
+				 * @param {IncomingRequest} req
+				 * @param {ServerResponse} res
 				 * @param {Object} data
 				onAfterCall(ctx, route, req, res, data) {
 					// Async function which return with Promise
@@ -173,5 +173,12 @@ module.exports = {
 			}
 		}
 
+	},
+	events:{
+		"magnitude-alert":{
+			handler(payload){
+				this.logger.info(payload);
+			}
+		}
 	}
 };

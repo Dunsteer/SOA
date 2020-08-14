@@ -56,7 +56,7 @@ module.exports = function(collection) {
 		}
 	};
 
-	if (process.env.MONGO_URI) {
+	if (process.env.MONGO_DATA_URI) {
 		// Mongo adapter
 		const MongoAdapter = require("moleculer-db-adapter-mongo");
 

@@ -1,18 +1,23 @@
 "use strict";
 
+const DbMixin = require("../mixins/db-data.mixin");
+
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
 module.exports = {
-	name:"data",
+	name: "data",
+
+	/**
+	 * Mixins
+	 */
+	mixins: [DbMixin("data")],
 
 	/**
 	 * Settings
 	 */
-	settings: {
-
-	},
+	settings: {},
 
 	/**
 	 * Dependencies
@@ -20,30 +25,40 @@ module.exports = {
 	dependencies: [],
 
 	/**
+	 * Action Hooks
+	 */
+	hooks: {
+		before: {
+			/**
+			 * Register a before hook for the `create` action.
+			 * It sets a default value for the quantity field.
+			 *
+			 * @param {Context} ctx
+			 */
+			create(ctx) {
+				ctx.params.quantity = 0;
+			},
+		},
+	},
+
+	/**
 	 * Actions
 	 */
 	actions: {
-		getDeviceSettings:{
-			rest:{
-				method:"GET",
-				path:"/",
-			},
-			/** @param {Context} ctx  */
-			async handler(ctx){
-				return "test";
-			}
-		}
+
 	},
 
 	/**
 	 * Events
 	 */
 	events: {
-		"new-data":{
-			handler(payload){
-				this.logger.info(payload);
-			}
-		}
+		"new-data": {
+			async handler(payload) {
+				this.broker.emit("analytics-data", payload);
+				this.adapter.insert(payload);
+				//this.logger.info(payload);
+			},
+		},
 	},
 
 	/**
@@ -52,19 +67,9 @@ module.exports = {
 	methods: {},
 
 	/**
-	 * Service created lifecycle event handler
+	 * Fired after database connection establishing.
 	 */
-	created() {
-
-	},
-
-	/**
-	 * Service started lifecycle event handler
-	 */
-	async started() {},
-
-	/**
-	 * Service stopped lifecycle event handler
-	 */
-	async stopped() {},
-}
+	async afterConnected() {
+		// await this.adapter.collection.createIndex({ name: 1 });
+	}
+};
