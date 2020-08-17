@@ -58,7 +58,7 @@ module.exports = {
 		},
 		"magnitude-alert": {
 			async handler(payload) {
-				const config = fs.readFileSync(deviceConfig);
+				const config = fs.readFileSync(commandsConfig);
 				const actuators = JSON.parse(config);
 
 				this.broker.emit("execute-command", {

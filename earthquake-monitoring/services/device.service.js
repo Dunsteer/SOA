@@ -118,10 +118,20 @@ module.exports = {
 	 */
 	methods: {
 		executeCommand(payload) {
-			const devices = [];
-			this.settings.configObj.devices.forEach(element => {
-				
-			});
+			for(let element of this.settings.configObj.devices){
+				if(element.type == "actuator"){
+					let contains = false;
+					for(let command of element.commands){
+						if(command.comm.includes(payload.comm)){
+							contains = true;
+							break;
+						}
+					}
+					if(contains){
+						this.logger.info(`${payload.comm} executed on device ${element.id}`);
+					}
+				}
+			}
 		},
 
 		startInterval(device) {
@@ -137,8 +147,6 @@ module.exports = {
 				const res = data.results[random];
 
 				this.broker.emit("new-data", res);
-
-				//return res;
 			}
 		},
 	},
