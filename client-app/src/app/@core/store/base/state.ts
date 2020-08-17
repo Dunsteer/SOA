@@ -35,8 +35,8 @@ export class BaseStateManager<State, T> {
       map((res) => {
         if (res) {
           patchObj = {};
-          patchObj[this._names[index] + "List"] = res.list;
-          patchObj[this._names[index] + "Count"] = res.count;
+          patchObj[this._names[index] + "List"] = res.rows;
+          patchObj[this._names[index] + "Count"] = res.total;
           patchObj[this._names[index] + "Loading"] = false;
           return ctx.patchState(patchObj);
         }

@@ -1,3 +1,29 @@
-<div class="d-flex flex-column justify-content-center align-items-center h-100">
-  {{ deviceSettings$ | async | json }}
+<div class="d-flex flex-row flex-wrap justify-content-center align-items-center">
+  <div
+    *ngFor="let ds of deviceSettings$ | async"
+    class="device card bg-light m-3 "
+    [class.bg-success]="ds.type == 'sensor'"
+    [class.bg-warning]="ds.type == 'actuator'"
+  >
+    <ng-container *ngIf="ds.type == 'sensor'">
+      <div class="card-header">Sensor</div>
+
+      <div class="card-body">
+        <div class="mb-2">ID: {{ ds.id }}</div>
+        <div>Emit interval: {{ ds.interval }}</div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="ds.type == 'actuator'">
+      <div class="card-header">Actuator</div>
+      <div class="card-body">
+        <div class="mb-2">ID: {{ ds.id }}</div>
+        <div>
+          Commands:
+          <div *ngFor="let c of ds.commands" class="ml-3 mb-3">
+            {{ c.comm }}({{ c.params }})
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
 </div>

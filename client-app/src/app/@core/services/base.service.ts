@@ -15,10 +15,10 @@ export abstract class BaseService<T> {
     return this._http.get<T>(`${environment.apiURL}/api/${this._entity}/${id}`);
   }
 
-  getAll(search: T): Observable<{ list: T[]; count: number }> {
+  getAll(search: T): Observable<{ rows: T[]; total: number }> {
     return this._http.get<{
-      list: T[];
-      count: number;
+      rows: T[];
+      total: number;
     }>(`${environment.apiURL}/api/${this._entity}`, {
       params: this._helper.objectToUrlParams(search),
     });

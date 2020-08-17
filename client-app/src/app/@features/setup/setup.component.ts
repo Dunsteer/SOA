@@ -12,9 +12,6 @@ import { GeneralStateManager } from "@core/store/general/state";
 export class SetupComponent {
   constructor(private _store: Store) {}
 
-  @Select(GeneralStateManager.data("deviceSettings")) deviceSettings$;
-
   ngOnInit() {
-    this._store.dispatch(new GeneralActions.FetchAllDeviceSettings({}));
   }
 }

@@ -12,16 +12,16 @@ import { GeneralActions } from "./actions";
 import { BaseStateManager } from "../base/state";
 import { DeviceSettings } from "@core/models/device-settings.model";
 import { DeviceSettingsService } from "@core/services/device.service";
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 export interface GeneralState {
-  deviceSettings: DeviceSettings[];
+  deviceSettingsList: DeviceSettings[];
   deviceSettingsCount: number;
   deviceSettingsLoading: boolean;
 }
 
 const initialState: GeneralState = {
-  deviceSettings: [],
+  deviceSettingsList: [],
   deviceSettingsCount: 0,
   deviceSettingsLoading: false,
 };
@@ -30,7 +30,7 @@ enum eGeneralStateIndex {
   "deviceSettings" = 0,
 }
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: "root" })
 @State<GeneralState>({
   name: "general",
   defaults: initialState,
@@ -44,7 +44,10 @@ export class GeneralStateManager extends BaseStateManager<
   }
 
   static data(
-    dataType: "deviceSettings" | "deviceSettingsCount" | "deviceSettingsLoading"
+    dataType:
+      | "deviceSettingsList"
+      | "deviceSettingsCount"
+      | "deviceSettingsLoading"
   ) {
     return createSelector([GeneralStateManager], (state: GeneralState) => {
       return state[dataType];
@@ -64,27 +67,27 @@ export class GeneralStateManager extends BaseStateManager<
     return super.fetchAll(ctx, action, eGeneralStateIndex.deviceSettings);
   }
 
-//   @Action(GeneralActions.CreateDeviceSettings)
-//   createDeviceSettings(
-//     ctx: StateContext<GeneralState>,
-//     action: GeneralActions.CreateDeviceSettings
-//   ) {
-//     return super.create(ctx, action, eGeneralStateIndex.deviceSettings);
-//   }
+  //   @Action(GeneralActions.CreateDeviceSettings)
+  //   createDeviceSettings(
+  //     ctx: StateContext<GeneralState>,
+  //     action: GeneralActions.CreateDeviceSettings
+  //   ) {
+  //     return super.create(ctx, action, eGeneralStateIndex.deviceSettings);
+  //   }
 
-//   @Action(GeneralActions.UpdateDeviceSettings)
-//   updateDeviceSettings(
-//     ctx: StateContext<GeneralState>,
-//     action: GeneralActions.UpdateDeviceSettings
-//   ) {
-//     return super.update(ctx, action, eGeneralStateIndex.deviceSettings);
-//   }
+  //   @Action(GeneralActions.UpdateDeviceSettings)
+  //   updateDeviceSettings(
+  //     ctx: StateContext<GeneralState>,
+  //     action: GeneralActions.UpdateDeviceSettings
+  //   ) {
+  //     return super.update(ctx, action, eGeneralStateIndex.deviceSettings);
+  //   }
 
-//   @Action(GeneralActions.DeleteDeviceSettings)
-//   deleteDeviceSettings(
-//     ctx: StateContext<GeneralState>,
-//     action: GeneralActions.DeleteDeviceSettings
-//   ) {
-//     return super.delete(ctx, action, eGeneralStateIndex.deviceSettings);
-//   }
+  //   @Action(GeneralActions.DeleteDeviceSettings)
+  //   deleteDeviceSettings(
+  //     ctx: StateContext<GeneralState>,
+  //     action: GeneralActions.DeleteDeviceSettings
+  //   ) {
+  //     return super.delete(ctx, action, eGeneralStateIndex.deviceSettings);
+  //   }
 }
