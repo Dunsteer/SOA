@@ -1,0 +1,19 @@
+{
+  "devices": [
+    {
+      "id": 1,
+      "type": "sensor",
+      "interval": 10000
+    },
+    {
+      "id": 2,
+      "type": "actuator",
+      "commands": [
+        {
+          "comm": "ring",
+          "params": "time"
+        }
+      ]
+    }
+  ]
+}

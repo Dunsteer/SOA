@@ -4,10 +4,11 @@ const csvParser = require("csv-parser");
 
 const data = {};
 
+const deviceConfig = "device.config.json";
+
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
-
 module.exports = {
 	name: "device",
 
@@ -44,19 +45,59 @@ module.exports = {
 			async handler(ctx) {
 				const reqData = ctx.params;
 
-				this.settings.configObj.devices[reqData.deviceId] = { ...this.settings.configObj.devices[reqData.deviceId], ...reqData.settings };
+				const devices = this.settings.configObj.devices.filter(
+					(x) => x.id == reqData.deviceId
+				);
 
-				if(reqData.settings.interval){
-					const deviceId = reqData.deviceId;
+				if (devices.length == 0) return "Device not found";
 
-					clearInterval(this.settings.intervals[deviceId]);
+				const device = devices.pop();
 
-					const device = this.settings.configObj.devices[reqData.deviceId];
+				if (device.type == "sensor") {
+					// this.settings.configObj.devices[reqData.deviceId] = {
+					// 	...this.settings.configObj.devices[reqData.deviceId],
+					// 	...reqData.settings,
+					// };
 
-    				this.settings.intervals[deviceId] = this.startInterval(device);
+					device.interval = reqData.settings.interval;
+
+					if (reqData.settings.interval) {
+						clearInterval(this.settings.intervals[device.id]);
+
+						this.settings.intervals[device.id] = this.startInterval(
+							device
+						);
+					}
 				}
 
-				fs.writeFileSync("config.json", JSON.stringify(this.settings.configObj,undefined,2));
+				if (device.type == "actuator") {
+					const commands = device.commands.filter(
+						(x) => (x.comm = reqData.comm)
+					);
+					let command;
+					if (commands.length == 0) {
+						command = {
+							comm: reqData.comm,
+							params: reqData.params,
+						};
+
+						device.commands.add(command);
+					} else {
+						command = commands.pop();
+						command.params = reqData.params;
+					}
+				}
+
+				const actuators = this.settings.configObj.devices.filter(
+					(x) => x.type == "actuator"
+				);
+
+				ctx.emit("commands-changed", actuators);
+
+				fs.writeFileSync(
+					deviceConfig,
+					JSON.stringify(this.settings.configObj, undefined, 2)
+				);
 			},
 		},
 	},
@@ -65,11 +106,11 @@ module.exports = {
 	 * Events
 	 */
 	events: {
-		"execute-command":{
-			handler(payload){
-				executeCommand(payload)
-			}
-		}
+		"execute-command": {
+			handler(payload) {
+				this.executeCommand(payload);
+			},
+		},
 	},
 
 	/**
@@ -77,7 +118,10 @@ module.exports = {
 	 */
 	methods: {
 		executeCommand(payload) {
-
+			const devices = [];
+			this.settings.configObj.devices.forEach(element => {
+				
+			});
 		},
 
 		startInterval(device) {
@@ -103,7 +147,7 @@ module.exports = {
 	 * Service created lifecycle event handler
 	 */
 	created() {
-		const config = fs.readFileSync("config.json");
+		const config = fs.readFileSync(deviceConfig);
 		this.settings.configObj = JSON.parse(config);
 		this.settings.intervals = [];
 
@@ -126,7 +170,7 @@ module.exports = {
 			const device = this.settings.configObj.devices[i];
 
 			if (device.type == "sensor")
-			this.settings.intervals[i] = this.startInterval(device);
+				this.settings.intervals[device.id] = this.startInterval(device);
 		}
 	},
 
@@ -134,10 +178,10 @@ module.exports = {
 	 * Service stopped lifecycle event handler
 	 */
 	async stopped() {
-		for (let i = 0; i < this.settings.configObj.devices.length; i++) {
-			const device = this.settings.configObj.devices[i];
-
-			if ((device.type = "sensor")) clearInterval(this.settings.intervals[i]);
+		for (let interval of this.settings.intervals) {
+			if (interval) {
+				clearInterval(interval);
+			}
 		}
 	},
 };

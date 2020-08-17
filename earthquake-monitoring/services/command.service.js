@@ -1,18 +1,20 @@
 "use strict";
 
+const fs = require("fs");
+
+const commandsConfig = "command.config.json";
+
 /**
  * @typedef {import('moleculer').Context} Context Moleculer's Context
  */
 
 module.exports = {
-	name:"command",
+	name: "command",
 
 	/**
 	 * Settings
 	 */
-	settings: {
-
-	},
+	settings: {},
 
 	/**
 	 * Dependencies
@@ -23,22 +25,49 @@ module.exports = {
 	 * Actions
 	 */
 	actions: {
-		getDeviceSettings:{
-			rest:{
-				method:"GET",
-				path:"/",
+		get: {
+			rest: {
+				method: "GET",
+				path: "/",
 			},
 			/** @param {Context} ctx  */
-			async handler(ctx){
+			async handler(ctx) {
 				return "test";
-			}
-		}
+			},
+		},
 	},
+
+	// ctx.emit("commands-changed", actuators);
+
+	// 			fs.writeFileSync(
+	// 				deviceConfig,
+	// 				JSON.stringify(this.settings.configObj, undefined, 2)
+	// 			);
 
 	/**
 	 * Events
 	 */
-	events: {},
+	events: {
+		"commands-changed": {
+			handler(payload) {
+				fs.writeFileSync(
+					commandsConfig,
+					JSON.stringify(payload, undefined, 2)
+				);
+			},
+		},
+		"magnitude-alert": {
+			async handler(payload) {
+				const config = fs.readFileSync(deviceConfig);
+				const actuators = JSON.parse(config);
+
+				this.broker.emit("execute-command", {
+					comm: "ring",
+					time: 1000,
+				});
+			},
+		},
+	},
 
 	/**
 	 * Methods
@@ -48,8 +77,7 @@ module.exports = {
 	/**
 	 * Service created lifecycle event handler
 	 */
-	created() {
-	},
+	created() {},
 
 	/**
 	 * Service started lifecycle event handler
@@ -60,4 +88,4 @@ module.exports = {
 	 * Service stopped lifecycle event handler
 	 */
 	async stopped() {},
-}
+};
