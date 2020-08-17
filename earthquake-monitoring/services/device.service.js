@@ -33,7 +33,7 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				return this.settings.configObj;
+				return {"rows":this.settings.configObj.devices,"total":this.settings.configObj.devices.length};
 			},
 		},
 		postDeviceSettings: {
