@@ -176,7 +176,7 @@ module.exports = {
 			},
 		},
 	},
-	starterd(){
+	started(){
 		this.io = IO.listen(this.server);
 
 		this.io.on("connection", client => {

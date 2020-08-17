@@ -28,7 +28,7 @@ module.exports = {
 		getDeviceSettings: {
 			rest: {
 				method: "GET",
-				path: "/",
+				path: "/settings",
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
@@ -38,7 +38,7 @@ module.exports = {
 		postDeviceSettings: {
 			rest: {
 				method: "POST",
-				path: "/",
+				path: "/settings",
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
