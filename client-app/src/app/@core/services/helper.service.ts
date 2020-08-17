@@ -25,12 +25,12 @@ export class HelperService {
     for (const x in obj) {
       if (!isNullOrUndefined(obj[x])) {
         if (obj[x] instanceof Date) {
-          urlParams[x.charAt(0).toUpperCase() + x.slice(1)] = obj[x].toISOString();
+          urlParams[x] = obj[x].toISOString();
         } else {
           if (moment.isMoment(obj[x])) {
-            urlParams[x.charAt(0).toUpperCase() + x.slice(1)] = new Date(obj[x]).toISOString();
+            urlParams[x] = new Date(obj[x]).toISOString();
           } else {
-            urlParams[x.charAt(0).toUpperCase() + x.slice(1)] = obj[x];
+            urlParams[x] = obj[x];
           }
         }
       }

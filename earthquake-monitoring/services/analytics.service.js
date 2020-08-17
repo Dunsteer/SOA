@@ -53,7 +53,7 @@ module.exports = {
 				// this.adapter.insert(payload);
 				this.logger.info(payload.mag);
 
-				if (parseFloat( payload.mag) > 4) {
+				if (parseFloat( payload.mag) > 1) {
 					//this.logger.error(payload);
 					this.broker.emit("magnitude-alert", payload);
 					this.adapter.insert(payload);

@@ -3,6 +3,7 @@ import { Store, Select } from "@ngxs/store";
 import { ErrorActions } from "@core/store/error/actions";
 import { GeneralActions } from "@core/store/general/actions";
 import { GeneralStateManager } from "@core/store/general/state";
+import { SocketService } from '@core/services/socket.service';
 
 @Component({
   selector: "app-root",
@@ -12,7 +13,7 @@ import { GeneralStateManager } from "@core/store/general/state";
 export class AppComponent {
   heading = "Earthquake monitoring";
 
-  constructor() {
+  constructor(socket: SocketService) {
     
   }
 }

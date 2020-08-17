@@ -1,4 +1,7 @@
-.device {
-    width: 200px;
-    min-height: 200px;
+:host {
+    width: 100%;
+    .device {
+        width: 200px;
+        min-height: 200px;
+    }
 }

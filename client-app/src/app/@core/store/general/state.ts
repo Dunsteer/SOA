@@ -13,21 +13,42 @@ import { BaseStateManager } from "../base/state";
 import { DeviceSettings } from "@core/models/device-settings.model";
 import { DeviceSettingsService } from "@core/services/device.service";
 import { Injectable } from "@angular/core";
+import { Earthquake } from "@core/models/earthquake.model";
+import { EarthquakeService } from "@core/services/earthquake.service";
+import { AnalyticsService } from "@core/services/analytics.service";
 
 export interface GeneralState {
   deviceSettingsList: DeviceSettings[];
   deviceSettingsCount: number;
   deviceSettingsLoading: boolean;
+
+  earthquakeList: Earthquake[];
+  earthquakeCount: number;
+  earthquakeLoading: boolean;
+
+  analyticsList: Earthquake[];
+  analyticsCount: number;
+  analyticsLoading: boolean;
 }
 
 const initialState: GeneralState = {
   deviceSettingsList: [],
   deviceSettingsCount: 0,
   deviceSettingsLoading: false,
+
+  earthquakeList: [],
+  earthquakeCount: 0,
+  earthquakeLoading: false,
+
+  analyticsList: [],
+  analyticsCount: 0,
+  analyticsLoading: false,
 };
 
 enum eGeneralStateIndex {
-  "deviceSettings" = 0,
+  deviceSettings = 0,
+  earthquake,
+  analytics,
 }
 
 @Injectable({ providedIn: "root" })
@@ -37,10 +58,19 @@ enum eGeneralStateIndex {
 })
 export class GeneralStateManager extends BaseStateManager<
   GeneralState,
-  DeviceSettings
+  DeviceSettings | Earthquake
 > {
-  constructor(_deviceSettings: DeviceSettingsService) {
-    super(["deviceSettings"], ["id"], [_deviceSettings]);
+  constructor(
+    protected _toastr: ToastrService,
+    _deviceSettings: DeviceSettingsService,
+    _earthquake: EarthquakeService,
+    _analytics: AnalyticsService
+  ) {
+    super(
+      ["deviceSettings", "earthquake", "analytics"],
+      ["id", "id", "id"],
+      [_deviceSettings, _earthquake, _analytics]
+    );
   }
 
   static data(
@@ -48,6 +78,12 @@ export class GeneralStateManager extends BaseStateManager<
       | "deviceSettingsList"
       | "deviceSettingsCount"
       | "deviceSettingsLoading"
+      | "earthquakeList"
+      | "earthquakeCount"
+      | "earthquakeLoading"
+      | "analyticsList"
+      | "analyticsCount"
+      | "analyticsLoading"
   ) {
     return createSelector([GeneralStateManager], (state: GeneralState) => {
       return state[dataType];
@@ -90,4 +126,20 @@ export class GeneralStateManager extends BaseStateManager<
   //   ) {
   //     return super.delete(ctx, action, eGeneralStateIndex.deviceSettings);
   //   }
+
+  @Action(GeneralActions.FetchAllEarthquakes)
+  fetchAllData(
+    ctx: StateContext<GeneralState>,
+    action: GeneralActions.FetchAllEarthquakes
+  ) {
+    return super.fetchAll(ctx, action, eGeneralStateIndex.earthquake);
+  }
+
+  @Action(GeneralActions.FetchAllAnalytics)
+  fetchAllAnalytics(
+    ctx: StateContext<GeneralState>,
+    action: GeneralActions.FetchAllAnalytics
+  ) {
+    return super.fetchAll(ctx, action, eGeneralStateIndex.analytics);
+  }
 }
