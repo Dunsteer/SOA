@@ -1,6 +1,8 @@
+import { DeviceSettings } from '@core/models/device-settings.model';
+
 export namespace GeneralActions {
-  export class GetDevices {
-    public static type = "[GENERAL] Get devices";
-    constructor() {}
+  export class FetchAllDeviceSettings {
+    public static type = "[GENERAL] Fetch all device settings";
+    constructor(public search: DeviceSettings) {}
   }
 }

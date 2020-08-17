@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
-import { Store } from "@ngxs/store";
+import { Store, Select } from "@ngxs/store";
 import { ErrorActions } from "@core/store/error/actions";
+import { GeneralActions } from "@core/store/general/actions";
+import { GeneralStateManager } from "@core/store/general/state";
 
 @Component({
   selector: "app-root",
@@ -8,17 +10,9 @@ import { ErrorActions } from "@core/store/error/actions";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  title = "client-app";
+  heading = "Earthquake monitoring";
 
-  constructor(private _store: Store) {}
-
-  ngOnInit() {
-    this._store.dispatch(
-      new ErrorActions.Set({
-        message: "Test",
-        type: "TEST TYPE",
-        baseError: null,
-      })
-    );
+  constructor() {
+    
   }
 }
