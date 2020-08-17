@@ -32,7 +32,10 @@ module.exports = {
 			},
 			/** @param {Context} ctx  */
 			async handler(ctx) {
-				return "test";
+				const config = fs.readFileSync(commandsConfig);
+				const actuators = JSON.parse(config);
+				const commands = actuators.map(x=>x.commands).flat();
+				return commands;
 			},
 		},
 	},
@@ -58,9 +61,6 @@ module.exports = {
 		},
 		"magnitude-alert": {
 			async handler(payload) {
-				const config = fs.readFileSync(commandsConfig);
-				const actuators = JSON.parse(config);
-
 				this.broker.emit("execute-command", {
 					comm: "ring",
 					time: 1000,
