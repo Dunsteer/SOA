@@ -74,22 +74,12 @@ export class GeneralStateManager extends BaseStateManager<
   }
 
   static data(
-    dataType:
-      | "deviceSettingsList"
-      | "deviceSettingsCount"
-      | "deviceSettingsLoading"
-      | "earthquakeList"
-      | "earthquakeCount"
-      | "earthquakeLoading"
-      | "analyticsList"
-      | "analyticsCount"
-      | "analyticsLoading"
+    dataType: keyof GeneralState
   ) {
     return createSelector([GeneralStateManager], (state: GeneralState) => {
       return state[dataType];
     });
   }
-
   @Selector()
   static state(state: GeneralState) {
     return state;
