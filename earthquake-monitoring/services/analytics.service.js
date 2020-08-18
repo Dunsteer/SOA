@@ -49,12 +49,9 @@ module.exports = {
 	events: {
 		"analytics-data": {
 			async handler(payload) {
-				// this.broker.emit("analytics-data", payload);
-				// this.adapter.insert(payload);
 				this.logger.info(payload.mag);
 
-				if (parseFloat( payload.mag) > 1) {
-					//this.logger.error(payload);
+				if (parseFloat( payload.mag) > 4) {
 					this.broker.emit("magnitude-alert", payload);
 					this.adapter.insert(payload);
 				}

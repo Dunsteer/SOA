@@ -40,13 +40,6 @@ module.exports = {
 		},
 	},
 
-	// ctx.emit("commands-changed", actuators);
-
-	// 			fs.writeFileSync(
-	// 				deviceConfig,
-	// 				JSON.stringify(this.settings.configObj, undefined, 2)
-	// 			);
-
 	/**
 	 * Events
 	 */

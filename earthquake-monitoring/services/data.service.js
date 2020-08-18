@@ -56,7 +56,6 @@ module.exports = {
 			async handler(payload) {
 				this.broker.emit("analytics-data", payload);
 				this.adapter.insert(payload);
-				//this.logger.info(payload);
 			},
 		},
 	},
@@ -70,6 +69,5 @@ module.exports = {
 	 * Fired after database connection establishing.
 	 */
 	async afterConnected() {
-		// await this.adapter.collection.createIndex({ name: 1 });
 	}
 };

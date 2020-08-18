@@ -54,11 +54,6 @@ module.exports = {
 				const device = devices.pop();
 
 				if (device.type == "sensor") {
-					// this.settings.configObj.devices[reqData.deviceId] = {
-					// 	...this.settings.configObj.devices[reqData.deviceId],
-					// 	...reqData.settings,
-					// };
-
 					device.interval = reqData.settings.interval;
 
 					if (reqData.settings.interval) {
