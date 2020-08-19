@@ -54,6 +54,7 @@ module.exports = {
 	events: {
 		"new-data": {
 			async handler(payload) {
+				payload.mag = Math.abs(payload.mag);
 				this.broker.emit("analytics-data", payload);
 				this.adapter.insert(payload);
 			},

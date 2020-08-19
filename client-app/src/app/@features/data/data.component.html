@@ -1,6 +1,4 @@
-<div
-  class="d-flex flex-column flex-wrap justify-content-center align-items-center w-100"
->
+<div class="d-flex flex-column flex-wrap justify-content-center align-items-center w-100">
   <div class="button-group">
     <button class="btn btn-secondary" (click)="changeTab('earthquakes')">
       Earthquakes
@@ -14,16 +12,10 @@
     </button>
   </div>
 
-  <div
-    *ngIf="tab == 'deviceSettings'"
-    class="d-flex flex-row flex-wrap justify-content-center align-items-center w-100"
-  >
-    <div
-      *ngFor="let ds of deviceSettings$ | async"
-      class="device card bg-light m-3"
-      [class.bg-success]="ds.type == 'sensor'"
-      [class.bg-warning]="ds.type == 'actuator'"
-    >
+  <div *ngIf="tab == 'deviceSettings'"
+    class="d-flex flex-row flex-wrap justify-content-center align-items-center w-100">
+    <div *ngFor="let ds of deviceSettings$ | async" class="device card bg-light m-3"
+      [class.bg-success]="ds.type == 'sensor'" [class.bg-warning]="ds.type == 'actuator'">
       <ng-container *ngIf="ds.type == 'sensor'">
         <div class="card-header">Sensor</div>
 
@@ -46,23 +38,15 @@
       </ng-container>
     </div>
   </div>
-   
+
   <div class="d-flex justify-content-center align-items-center" *ngIf="tab == 'deviceSettings'">
-    <button
-      class="btn btn-secondary"
-      [disabled]="page == 1"
-      (click)="changePage(page - 1)"
-    >
-      <
-    </button>
-    <div style="width: 30px;" class="text-center">{{ this.page }}</div>
-    <button
-      class="btn btn-secondary"
-      [disabled]="page == ((deviceSettingsCount$ | async ) / pageSize | ceil)"
-      (click)="changePage(page + 1)"
-    >
-      >
-    </button>
+    <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
+      < </button>
+        <div style="width: 30px;" class="text-center">{{ this.page }}</div>
+        <button class="btn btn-secondary" [disabled]="page == ((deviceSettingsCount$ | async ) / pageSize | ceil)"
+          (click)="changePage(page + 1)">
+          >
+        </button>
   </div>
 
   <ng-container *ngIf="tab == 'earthquakes'">
@@ -73,6 +57,7 @@
           <th>Place</th>
           <th>Longitude</th>
           <th>Latitude</th>
+          <th>Magnitude</th>
         </tr>
       </thead>
       <tbody>
@@ -81,23 +66,17 @@
           <td>{{ e.place }}</td>
           <td>{{ e.longitude }}</td>
           <td>{{ e.latitude }}</td>
+          <td>{{ e.mag<0 ? e.mag * -1 : e.mag }}</td>
         </tr>
       </tbody>
     </table>
     <div class="d-flex justify-content-center align-items-center">
-      <button
-        class="btn btn-secondary"
-        [disabled]="page == 1"
-        (click)="changePage(page - 1)"
-      >
-        <
+      <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
+          <
       </button>
-      <div style="width: 30px;" class="text-center">{{ this.page }}</div>
-      <button
-        class="btn btn-secondary"
-        [disabled]="page == ((earthquakeCount$ | async) / pageSize | ceil)"
-        (click)="changePage(page + 1)"
-      >
+      <div style="width: 60px;" class="text-center">{{ this.page }} / {{((earthquakeCount$ | async) / pageSize | ceil)}}</div>
+      <button class="btn btn-secondary" [disabled]="page == ((earthquakeCount$ | async) / pageSize | ceil)"
+        (click)="changePage(page + 1)">
         >
       </button>
     </div>
@@ -111,6 +90,8 @@
           <th>Place</th>
           <th>Longitude</th>
           <th>Latitude</th>
+          <th>Magnitude</th>
+
         </tr>
       </thead>
       <tbody>
@@ -119,23 +100,19 @@
           <td>{{ e.place }}</td>
           <td>{{ e.longitude }}</td>
           <td>{{ e.latitude }}</td>
+          <td>{{ e.mag<0 ? e.mag * -1 : e.mag }}</td>
         </tr>
       </tbody>
     </table>
     <div class="d-flex justify-content-center align-items-center">
-      <button
-        class="btn btn-secondary"
-        [disabled]="page == 1"
-        (click)="changePage(page - 1)"
-      >
+      <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
         <
       </button>
-      <div style="width: 30px;" class="text-center">{{ this.page }}</div>
-      <button
-        class="btn btn-secondary"
-        [disabled]="page == ((analyticsCount$ | async) / pageSize | ceil)"
-        (click)="changePage(page + 1)"
-      >
+
+      <div style="width: 60px;" class="text-center">{{ this.page }} / {{((analyticsCount$ | async) / pageSize | ceil)}}</div>
+
+      <button class="btn btn-secondary" [disabled]="page == ((analyticsCount$ | async) / pageSize | ceil)"
+        (click)="changePage(page + 1)">
         >
       </button>
     </div>
