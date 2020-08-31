@@ -3,15 +3,39 @@
     {
       "id": 1,
       "type": "sensor",
-      "interval": 10000
+      "interval": "10000"
     },
     {
       "id": 2,
       "type": "actuator",
       "commands": [
         {
-          "comm": "ring",
-          "params": "time"
+          "comm": "jump2",
+          "params": "height"
+        },
+        {
+          "comm": "jump",
+          "params": "height"
+        },
+        {
+          "comm": "test",
+          "params": "test"
+        },
+        {
+          "comm": "bro",
+          "params": "yes"
+        },
+        {
+          "comm": "te",
+          "params": "te"
+        },
+        {
+          "comm": "",
+          "params": "TT"
+        },
+        {
+          "comm": "TE",
+          "params": "TT"
         }
       ]
     }

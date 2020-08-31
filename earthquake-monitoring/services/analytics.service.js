@@ -51,7 +51,7 @@ module.exports = {
 			async handler(payload) {
 				this.logger.info(payload.mag);
 
-				if (parseFloat( payload.mag) > 4) {
+				if (parseFloat( payload.mag) > 1) {
 					this.broker.emit("magnitude-alert", payload);
 					this.adapter.insert(payload);
 				}

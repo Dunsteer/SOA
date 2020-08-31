@@ -2,11 +2,9 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { NgModule } from "@angular/core";
 import { DataComponent } from './@features/data/data.component';
-import { SetupComponent } from './@features/setup/setup.component';
 
 const routes: Routes = [
-  { path: "data", component: DataComponent },
-  { path: "setup", component: SetupComponent },
+  { path: "", component: DataComponent },
 ];
 
 @NgModule({

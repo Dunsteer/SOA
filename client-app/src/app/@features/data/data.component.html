@@ -1,120 +1,155 @@
-<div class="d-flex flex-column flex-wrap justify-content-center align-items-center w-100">
-  <div class="button-group">
-    <button class="btn btn-secondary" (click)="changeTab('earthquakes')">
-      Earthquakes
+<div class="d-flex flex-column justify-content-start align-items-center wh-100">
+  <h2 class="mb-5 mt-3">{{ heading }}</h2>
+  <div>
+    <button class="btn btn-danger setup mx-5" (click)="changeTab('deviceSettings')">
+      SETUP
     </button>
-
-    <button class="btn btn-secondary" (click)="changeTab('deviceSettings')">
-      Device settings
-    </button>
-    <button class="btn btn-secondary" (click)="changeTab('analytics')">
-      Analytics
+    <button class="btn btn-primary data mx-5" (click)="changeTab('earthquakes')">
+      DATA
     </button>
   </div>
-
-  <div *ngIf="tab == 'deviceSettings'"
-    class="d-flex flex-row flex-wrap justify-content-center align-items-center w-100">
-    <div *ngFor="let ds of deviceSettings$ | async" class="device card bg-light m-3"
-      [class.bg-success]="ds.type == 'sensor'" [class.bg-warning]="ds.type == 'actuator'">
-      <ng-container *ngIf="ds.type == 'sensor'">
-        <div class="card-header">Sensor</div>
-
-        <div class="card-body">
-          <div class="mb-2">ID: {{ ds.id }}</div>
-          <div>Emit interval: {{ ds.interval }}</div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="ds.type == 'actuator'">
-        <div class="card-header">Actuator</div>
-        <div class="card-body">
-          <div class="mb-2">ID: {{ ds.id }}</div>
-          <div>
-            Commands:
-            <div *ngFor="let c of ds.commands" class="ml-3 mb-3">
-              {{ c.comm }}({{ c.params }})
-            </div>
-          </div>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-
-  <div class="d-flex justify-content-center align-items-center" *ngIf="tab == 'deviceSettings'">
-    <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
-      < </button>
-        <div style="width: 30px;" class="text-center">{{ this.page }}</div>
-        <button class="btn btn-secondary" [disabled]="page == ((deviceSettingsCount$ | async ) / pageSize | ceil)"
-          (click)="changePage(page + 1)">
-          >
+  <div class="border-top w-100 my-4"></div>
+  <div class="container">
+    <div class="d-flex flex-column flex-wrap justify-content-center align-items-center w-100">
+      <div class="button-group" *ngIf="tab != 'deviceSettings'">
+        <button class="btn" (click)="changeTab('earthquakes')" [class.btn-primary]="tab == 'earthquakes'"
+          [class.btn-outline-primary]="tab != 'earthquakes'">
+          Earthquakes
         </button>
+        <button class="btn" (click)="changeTab('analytics')" [class.btn-primary]="tab == 'analytics'"
+          [class.btn-outline-primary]="tab != 'analytics'">
+          Analytics
+        </button>
+      </div>
+
+      <div *ngIf="tab == 'deviceSettings'"
+        class="d-flex flex-row flex-wrap justify-content-center align-items-center w-100">
+        <div *ngFor="let ds of deviceSettings$ | async" class="device card bg-light m-3"
+          [class.bg-success]="ds.type == 'sensor'" [class.bg-warning]="ds.type == 'actuator'">
+          <ng-container *ngIf="ds.type == 'sensor'">
+            <div class="card-header">Sensor</div>
+
+            <div class="card-body">
+              <div class="mb-2">ID: {{ ds.id }}</div>
+              <div>Emit interval: {{ ds.interval }}</div>
+              <div>
+                Edit:
+                <form class="ml-3 d-flex flex-row justify-content-between align-items-center"
+                  (submit)="$event.preventDefault(); newSensor(ds.id, interval.value)">
+                  <input required style="width: 80px" type="text" #interval>
+                  <button class="btn btn-success" type="submit">OK</button>
+                </form>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="ds.type == 'actuator'">
+            <div class="card-header">Actuator</div>
+            <div class="card-body">
+              <div class="mb-2">ID: {{ ds.id }}</div>
+              <div>
+                Commands:
+                <div *ngFor="let c of ds.commands" class="ml-3 mb-3">
+                  {{ c.comm }}({{ c.params }})
+                  <svg (click)="comm.value=c.comm;params.value=c.params" aria-hidden="true" focusable="false"
+                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+                    <path
+                      d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z">
+                    </path>
+                  </svg>
+                </div>
+                <div>
+                  New/Edit:
+                  <form class="ml-3 d-flex flex-row justify-content-between align-items-center"
+                    (submit)="$event.preventDefault(); newCommand(ds.id, comm.value, params.value)">
+                    <input required style="width: 60px" type="text" #comm>(
+                    <input required style="width: 60px" type="text" #params>)
+                    <button class="btn btn-success" type="submit">OK</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center align-items-center" *ngIf="tab == 'deviceSettings'">
+        <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
+          < </button>
+            <div style="width: 30px;" class="text-center">{{ this.page }}</div>
+            <button class="btn btn-secondary" [disabled]="page == ((deviceSettingsCount$ | async ) / pageSize | ceil)"
+              (click)="changePage(page + 1)">
+              >
+            </button>
+      </div>
+
+      <ng-container *ngIf="tab == 'earthquakes'">
+        <table class="table table-bordered table-striped table-hover w-100">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Place</th>
+              <th>Longitude</th>
+              <th>Latitude</th>
+              <th>Magnitude</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let e of earthquakes$ | async">
+              <td>{{ e.id }}</td>
+              <td>{{ e.place }}</td>
+              <td>{{ e.longitude }}</td>
+              <td>{{ e.latitude }}</td>
+              <td>{{ e.mag<0 ? e.mag * -1 : e.mag }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
+            < </button>
+              <div style="width: 60px;" class="text-center">{{ this.page }} /
+                {{((earthquakeCount$ | async) / pageSize | ceil)}}</div>
+              <button class="btn btn-secondary" [disabled]="page == ((earthquakeCount$ | async) / pageSize | ceil)"
+                (click)="changePage(page + 1)">
+                >
+              </button>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="tab == 'analytics'">
+        <table class="table table-bordered table-striped table-hover w-100">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Place</th>
+              <th>Longitude</th>
+              <th>Latitude</th>
+              <th>Magnitude</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let e of analytics$ | async">
+              <td>{{ e.id }}</td>
+              <td>{{ e.place }}</td>
+              <td>{{ e.longitude }}</td>
+              <td>{{ e.latitude }}</td>
+              <td>{{ e.mag<0 ? e.mag * -1 : e.mag }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
+            < </button>
+
+              <div style="width: 60px;" class="text-center">{{ this.page }} /
+                {{((analyticsCount$ | async) / pageSize | ceil)}}</div>
+
+              <button class="btn btn-secondary" [disabled]="page == ((analyticsCount$ | async) / pageSize | ceil)"
+                (click)="changePage(page + 1)">
+                >
+              </button>
+        </div>
+      </ng-container>
+    </div>
   </div>
-
-  <ng-container *ngIf="tab == 'earthquakes'">
-    <table class="table table-bordered table-striped table-hover w-100">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Place</th>
-          <th>Longitude</th>
-          <th>Latitude</th>
-          <th>Magnitude</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let e of earthquakes$ | async">
-          <td>{{ e.id }}</td>
-          <td>{{ e.place }}</td>
-          <td>{{ e.longitude }}</td>
-          <td>{{ e.latitude }}</td>
-          <td>{{ e.mag<0 ? e.mag * -1 : e.mag }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="d-flex justify-content-center align-items-center">
-      <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
-          <
-      </button>
-      <div style="width: 60px;" class="text-center">{{ this.page }} / {{((earthquakeCount$ | async) / pageSize | ceil)}}</div>
-      <button class="btn btn-secondary" [disabled]="page == ((earthquakeCount$ | async) / pageSize | ceil)"
-        (click)="changePage(page + 1)">
-        >
-      </button>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="tab == 'analytics'">
-    <table class="table table-bordered table-striped table-hover w-100">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Place</th>
-          <th>Longitude</th>
-          <th>Latitude</th>
-          <th>Magnitude</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let e of analytics$ | async">
-          <td>{{ e.id }}</td>
-          <td>{{ e.place }}</td>
-          <td>{{ e.longitude }}</td>
-          <td>{{ e.latitude }}</td>
-          <td>{{ e.mag<0 ? e.mag * -1 : e.mag }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="d-flex justify-content-center align-items-center">
-      <button class="btn btn-secondary" [disabled]="page == 1" (click)="changePage(page - 1)">
-        <
-      </button>
-
-      <div style="width: 60px;" class="text-center">{{ this.page }} / {{((analyticsCount$ | async) / pageSize | ceil)}}</div>
-
-      <button class="btn btn-secondary" [disabled]="page == ((analyticsCount$ | async) / pageSize | ceil)"
-        (click)="changePage(page + 1)">
-        >
-      </button>
-    </div>
-  </ng-container>
 </div>

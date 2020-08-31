@@ -67,16 +67,17 @@ module.exports = {
 
 				if (device.type == "actuator") {
 					const commands = device.commands.filter(
-						(x) => (x.comm = reqData.comm)
+						(x) => (x.comm == reqData.comm)
 					);
 					let command;
 					if (commands.length == 0) {
+						console.log("ovde");
 						command = {
 							comm: reqData.comm,
 							params: reqData.params,
 						};
 
-						device.commands.add(command);
+						device.commands.push(command);
 					} else {
 						command = commands.pop();
 						command.params = reqData.params;

@@ -13,14 +13,12 @@ import { store } from './app.store';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { DataComponent } from './@features/data/data.component';
-import { SetupComponent } from './@features/setup/setup.component';
 import { CeilPipe } from '@core/pipes/ceil.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     DataComponent,
-    SetupComponent,
     CeilPipe
   ],
   imports: [

@@ -1,7 +1,12 @@
 :host {
     width: 100%;
     .device {
-        width: 200px;
+        width: 300px;
         min-height: 200px;
+
+        svg{
+            width: 15px;
+            cursor: pointer;
+        }
     }
 }

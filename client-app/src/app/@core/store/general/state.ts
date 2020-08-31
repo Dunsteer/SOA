@@ -16,6 +16,10 @@ import { Injectable } from "@angular/core";
 import { Earthquake } from "@core/models/earthquake.model";
 import { EarthquakeService } from "@core/services/earthquake.service";
 import { AnalyticsService } from "@core/services/analytics.service";
+import { Command } from '@core/models/command.model';
+import { Sensor } from '@core/models/sensor.model';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 export interface GeneralState {
   deviceSettingsList: DeviceSettings[];
@@ -57,12 +61,12 @@ enum eGeneralStateIndex {
   defaults: initialState,
 })
 export class GeneralStateManager extends BaseStateManager<
-  GeneralState,
-  DeviceSettings | Earthquake
+GeneralState,
+DeviceSettings | Earthquake | Command | Sensor
 > {
   constructor(
     protected _toastr: ToastrService,
-    _deviceSettings: DeviceSettingsService,
+    private _deviceSettings: DeviceSettingsService,
     _earthquake: EarthquakeService,
     _analytics: AnalyticsService
   ) {
@@ -101,13 +105,53 @@ export class GeneralStateManager extends BaseStateManager<
   //     return super.create(ctx, action, eGeneralStateIndex.deviceSettings);
   //   }
 
-  //   @Action(GeneralActions.UpdateDeviceSettings)
-  //   updateDeviceSettings(
-  //     ctx: StateContext<GeneralState>,
-  //     action: GeneralActions.UpdateDeviceSettings
-  //   ) {
-  //     return super.update(ctx, action, eGeneralStateIndex.deviceSettings);
-  //   }
+  @Action(GeneralActions.UpdateCommand)
+  updateCommand(
+    ctx: StateContext<GeneralState>,
+    action: GeneralActions.UpdateCommand
+  ) {
+    return this._deviceSettings.update(action.data).pipe(
+      map(() => {
+        this._toastr.success(`[UPDATE] Command`, "Success");
+        return ctx.dispatch(new GeneralActions.FetchAllDeviceSettings({ page: 0, pageSize: 8 }));
+      }),
+      catchError((err) => {
+        ctx.dispatch(
+          new ErrorActions.Set({
+            message: `Command not updated.`,
+            type: `UPDATE_COMMAND_FAILURE`,
+            baseError: err,
+          })
+        );
+
+        return of(null);
+      })
+    );
+  }
+
+  @Action(GeneralActions.UpdateSensor)
+  updateSensor(
+    ctx: StateContext<GeneralState>,
+    action: GeneralActions.UpdateSensor
+  ) {
+    return this._deviceSettings.update(action.data).pipe(
+      map(() => {
+        this._toastr.success(`[UPDATE] Sensor`, "Success");
+        return ctx.dispatch(new GeneralActions.FetchAllDeviceSettings({ page: 0, pageSize: 8 }));
+      }),
+      catchError((err) => {
+        ctx.dispatch(
+          new ErrorActions.Set({
+            message: `Sensor not updated.`,
+            type: `UPDATE_COMMAND_FAILURE`,
+            baseError: err,
+          })
+        );
+
+        return of(null);
+      })
+    );
+  }
 
   //   @Action(GeneralActions.DeleteDeviceSettings)
   //   deleteDeviceSettings(

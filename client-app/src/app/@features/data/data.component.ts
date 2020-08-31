@@ -5,6 +5,7 @@ import { GeneralStateManager } from "@core/store/general/state";
 import { Observable } from "rxjs";
 import { DeviceSettings } from "@core/models/device-settings.model";
 import { Earthquake } from "@core/models/earthquake.model";
+import { DeviceSettingsService } from '@core/services/device.service';
 
 @Component({
   selector: "app-data",
@@ -12,8 +13,9 @@ import { Earthquake } from "@core/models/earthquake.model";
   styleUrls: ["./data.component.scss"],
 })
 export class DataComponent {
+  heading = "Earthquake monitoring";
   tab: "earthquakes" | "deviceSettings" | "analytics" = "earthquakes";
-  constructor(private _store: Store) {}
+  constructor(private _store: Store, private _deviceSettings: DeviceSettingsService) { }
 
   page = 1;
   pageSize = 8;
@@ -90,7 +92,19 @@ export class DataComponent {
     );
   }
 
-  pagesCount(c) {
-    
+  newCommand(deviceId, comm, params) {
+    this._store.dispatch(
+      new GeneralActions.UpdateCommand({
+        comm, params, deviceId
+      })
+    );
+  }
+
+  newSensor(deviceId, interval) {
+    this._store.dispatch(
+      new GeneralActions.UpdateSensor(
+        { deviceId, settings: { interval } }
+      )
+    );
   }
 }

@@ -24,18 +24,10 @@ export abstract class BaseService<T> {
     });
   }
 
-  create(data: T): Observable<T> {
+  update(data: T): Observable<T> {
     return this._http.post<T>(
       `${environment.apiURL}/api/${this._entity}`,
       data
-    );
-  }
-
-  update(id: number | string, data: T): Observable<T> {
-    const patch = this._helper.generatePatch(data, this._PATCHABLE);
-    return this._http.patch<T>(
-      `${environment.apiURL}/api/${this._entity}/${id}`,
-      patch
     );
   }
 

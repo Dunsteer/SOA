@@ -29,7 +29,7 @@ export class ErrorStateManager {
   set(ctx: StateContext<ErrorState>, action: ErrorActions.Set) {
     ctx.patchState({ error: action.error });
 
-    this._toastr.success(action.error.message, `ERROR ${action.error.type}`);
+    this._toastr.error(action.error.message, `ERROR ${action.error.type}`);
   }
 
   @Action(ErrorActions.Reset)
