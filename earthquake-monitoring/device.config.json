@@ -10,32 +10,12 @@
       "type": "actuator",
       "commands": [
         {
-          "comm": "jump2",
-          "params": "height"
+          "comm": "rotate",
+          "params": "deg"
         },
         {
           "comm": "jump",
           "params": "height"
-        },
-        {
-          "comm": "test",
-          "params": "test"
-        },
-        {
-          "comm": "bro",
-          "params": "yes"
-        },
-        {
-          "comm": "te",
-          "params": "te"
-        },
-        {
-          "comm": "",
-          "params": "TT"
-        },
-        {
-          "comm": "TE",
-          "params": "TT"
         }
       ]
     }

@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "a81a0137-872f-4efb-9aa1-27b522cb89ea",
+		"name": "Earthquake monitoring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Command",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/command/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"command",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Data",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/data/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"data",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "GET",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/data/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"data",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Device",
+			"item": [
+				{
+					"name": "Get all settings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/device/settings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"device",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update settings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"deviceId\":1,\r\n\t\"settings\":{\r\n\t\t\"interval\":10000\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/device/settings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"device",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update actuator settings",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"deviceId\":2,\r\n\t\"comm\":\"jump\",\r\n\t\"params\":\"height\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/device/settings",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"device",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
