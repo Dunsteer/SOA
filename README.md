@@ -39,7 +39,7 @@ This app simulates an earthquake response using a microservice architecture.
 
 It consists of a backend app (see folder `eartqake-monitoring`) written using the moleculer framework and admin panel (see folder `client-app`) written in angular.
 
-For the communication between services mqtt broker is used (only when deployed to docker).
+For the communication between services **mqtt broker** is used (only when deployed to **docker**).
 
 ## Moleculer
 
@@ -61,24 +61,24 @@ On the welcome page you can test the generated services via API Gateway and chec
 - `npm run dev`: Start development mode (load all services locally with hot-reload & REPL)
 
 **To use the commands below first you need to install docker on your machine**
-- `npm run dc:up`: Start the stack with Docker Compose and also starts the angular client
+- `npm run dc:up`: Start the stack with **Docker Compose** and also starts the angular client
 - `npm run dc:down`: Stop the stack with Docker Compose
 
 ### Routes
 
-GET /api/analytics/	
-POST /api/analytics/	
-GET /api/analytics/:id 		
-PUT /api/analytics/:id		
-DELETE /api/analytics/:id
-GET /api/command/
-GET /api/data/
-POST /api/data/
-GET /api/data/:id
-PUT /api/data/:id
-DELETE /api/data/:id
-GET /api/device/settings	
-POST /api/device/settings
+- **GET** /api/analytics/	
+- **GET** /api/analytics/:id 		
+- **POST** /api/analytics/	
+- **PUT** /api/analytics/:id		
+- **DELETE** /api/analytics/:id
+- **GET** /api/command/
+- **GET** /api/data/
+- **GET** /api/data/:id
+- **POST** /api/data/
+- **PUT** /api/data/:id
+- **DELETE** /api/data/:id
+- **GET** /api/device/settings	
+- **POST** /api/device/settings
 
 ## Angular
 
