@@ -19,27 +19,52 @@ services:
     networks:
       - internal
 
-  greeter:
+  analytics:
     build:
       context: .
     image: earthquake-monitoring
     env_file: docker-compose.env
     environment:
-      SERVICES: greeter
+      SERVICES: analytics
+    depends_on:
+      - mongo
+      - mqtt
+    networks:
+      - internal
+      
+  data:
+    build:
+      context: .
+    image: earthquake-monitoring
+    env_file: docker-compose.env
+    environment:
+      SERVICES: data
+    depends_on:
+      - mongo
+      - mqtt
+    networks:
+      - internal
+
+  command:
+    build:
+      context: .
+    image: earthquake-monitoring
+    env_file: docker-compose.env
+    environment:
+      SERVICES: command
     depends_on:
       - mqtt
     networks:
       - internal
 
-  products:
+  device:
     build:
       context: .
     image: earthquake-monitoring
     env_file: docker-compose.env
     environment:
-      SERVICES: products
+      SERVICES: device
     depends_on:
-      - mongo
       - mqtt
     networks:
       - internal
