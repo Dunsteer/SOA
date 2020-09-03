@@ -69,6 +69,17 @@ services:
     networks:
       - internal
 
+  client:
+    build:
+      context: ../client-app
+    image: client-app
+    depends_on: 
+      - api
+    networks:
+      - internal
+    ports:
+      - 8080:80
+
   mongo:
     image: mongo:4
     volumes:
