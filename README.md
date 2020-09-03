@@ -41,6 +41,8 @@ It consists of a backend app (see folder `eartqake-monitoring`) written using th
 
 For the communication between services **mqtt broker** is used (only when deployed to **docker**).
 
+![Architecture]()
+
 ## Moleculer
 
 ### Usage
